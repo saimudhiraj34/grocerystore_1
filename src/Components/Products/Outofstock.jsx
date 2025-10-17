@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar } from '../Navbar/Navbar';
 import "./Outofstock.css";
-import Loader from '../Login/loader';
+import Loader from '../Login/Loader';
 
 export const Outofstock = () => {
   const [outprod, setoutprod] = useState([]);

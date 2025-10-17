@@ -5,7 +5,7 @@ import { FaTrash } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./detailedcat.css";
-import Loader from "../Login/loader";
+import Loader from "../Login/Loader";
 
 const DetailedCategory = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);

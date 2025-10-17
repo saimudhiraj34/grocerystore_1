@@ -7,7 +7,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "../Login/loader";
+import Loader from "../Login/Loader";
 export const Creditlistdetail = () => {
   const { phonenumber,username } = useParams();
   const [creditDetails, setCreditDetails] = useState({

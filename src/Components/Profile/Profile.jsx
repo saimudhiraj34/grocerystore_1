@@ -3,7 +3,7 @@ import "./Profile.css";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "../Login/loader";
+import Loader from "../Login/Loader";
 
 
 export const Profile = () => {

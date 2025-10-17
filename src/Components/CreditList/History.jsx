@@ -4,7 +4,7 @@ import "./History.css"; // ✅ Import the CSS file
 import { Navbar } from "../Navbar/Navbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "../Login/loader";
+import Loader from "../Login/Loader";
 
 export const History = () => {
   const { phonenumber, username } = useParams();

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../Navbar/Navbar';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from '../Login/loader';
+import Loader from '../Login/Loader';
 
 export const Updatestock = () => {
   const { productname } = useParams();

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { Navbar } from "../Navbar/Navbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "../Login/loader";
+import Loader from "../Login/Loader";
 
 /*
   Your original logic preserved with minor UI-binding additions:

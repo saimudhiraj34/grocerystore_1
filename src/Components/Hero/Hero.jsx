@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Navbar } from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
-import Loader from "../Login/loader";
+import Loader from "../Login/Loader";
 
 export const Hero=()=>{
   const [outprod, setoutprod] = useState([]);
