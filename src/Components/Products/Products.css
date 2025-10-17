@@ -125,9 +125,7 @@
 }
 
 @media (max-width: 768px) {
-  .productsbody {
-    margin-left:30px;
-  }
+
   .productstitle {
     font-size: 1.6rem;
   }

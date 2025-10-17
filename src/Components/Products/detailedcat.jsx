@@ -5,11 +5,14 @@ import { FaTrash } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./detailedcat.css";
+import Loader from "../Login/loader";
 
 const DetailedCategory = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const[load,setload]=useState(false);
   const { category } = useParams();
   const navigate = useNavigate();
+  const[del,setdel]=useState(false);
 
   const handleGraph = (productname) => {
     navigate(`/SalesGraph/${productname}`);
@@ -37,6 +40,7 @@ const DetailedCategory = () => {
   };
 
   const handleDelete = async (productname) => {
+    setdel(true);
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND}/prod/delete/${productname}`, {
@@ -56,10 +60,18 @@ const DetailedCategory = () => {
     } catch (err) {
       console.error("Error message", err);
     }
+    finally{
+      setdel(false);
+    }
   };
 
   useEffect(() => {
-    if (category) handleCategory();
+    setload(true);
+    const timer=setTimeout(()=>setload(false),5000);
+    handleCategory().finally(()=>{
+      setload(false);
+    })
+    return ()=>clearTimeout(timer);
   }, [category]);
 
   return (
@@ -77,8 +89,11 @@ const DetailedCategory = () => {
               pauseOnHover
               theme="colored"
             />
+        {load ? <Loader/> :(
+        <>
       <div className="categorybody">
         <h2 className="category-title">Category: {category}</h2>
+           {del ? <h2>"Deleting..."</h2 >:" "}
 
         {filteredProducts.length === 0 ? (
           <p className="no-products-text">No products found</p>
@@ -127,12 +142,19 @@ const DetailedCategory = () => {
                     className="delete-icon"
                     onClick={() => handleDelete(product.productname)}
                   />
+                
                 </div>
+               
               </div>
             ))}
+            
           </div>
+          
         )}
       </div>
+      
+      </>
+        )}
     </div>
   );
 };

@@ -4,6 +4,8 @@ import { Navbar } from "./Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "./Login/loader";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export const Payment = () => {
   const [paymentuser, setpaymentuser] = useState({
@@ -18,10 +20,14 @@ export const Payment = () => {
     phonenumber: "",
     image: "",
   });
-
+  const [add,setadd]=useState(false);
+  const [remove,setremove]=useState(false);
   const [products, setProducts] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState("credit-card");
   const [showCreditModal, setShowCreditModal] = useState(false);
+  const [paying,setpaying]=useState(false);
+  const [submit,setsubmit]=useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChangeUser = (e) => {
     const { name, value } = e.target;
@@ -34,12 +40,14 @@ export const Payment = () => {
   };
 
   const addProduct = async () => {
+    setadd(true);
     if (
       !paymentuser.productname ||
       !paymentuser.price ||
       !paymentuser.quantity
     ) {
       toast.warning("Please fill all product details!");
+      setadd(false);
       return;
     }
 
@@ -61,6 +69,7 @@ export const Payment = () => {
       const getData = await getRes.json();
       if (!getRes.ok || !getData.success) {
         toast.error("Product not found!");
+        setadd(false);
         return;
       }
 
@@ -72,6 +81,7 @@ export const Payment = () => {
         toast.warning(
           `Insufficient stock! Only ${availableStock} items available.`
         );
+        setadd(false);
         return;
       }
 
@@ -93,6 +103,7 @@ export const Payment = () => {
       const putData = await putRes.json();
       if (!putRes.ok || !putData.success) {
         toast.error("Error updating stock!");
+        setadd(false);
         return;
       }
 
@@ -121,11 +132,15 @@ export const Payment = () => {
       console.error("Error adding product:", error);
       toast.error("Something went wrong while adding product!");
     }
+    finally{
+      setadd(false);
+    }
   };
 
   const removeProduct = async (id) => {
+    setremove(true);
     const token = localStorage.getItem("token");
-
+    
     // Find the product to remove
     const removedProduct = products.find((p) => p.id === id);
     if (!removedProduct) return;
@@ -146,6 +161,7 @@ export const Payment = () => {
       const getData = await getRes.json();
       if (!getRes.ok || !getData.success) {
         toast.error("Product not found!");
+        setremove(false);
         return;
       }
 
@@ -171,6 +187,7 @@ export const Payment = () => {
       const putData = await putRes.json();
       if (!putRes.ok || !putData.success) {
         toast.error("Error updating stock back!");
+         setremove(false);
         return;
       }
 
@@ -184,6 +201,9 @@ export const Payment = () => {
       console.error("Error removing product:", error);
       toast.error("Something went wrong while removing product!");
     }
+    finally{
+       setremove(false);
+    }
   };
 
   const getTotalAmount = () => {
@@ -191,14 +211,17 @@ export const Payment = () => {
   };
 
   const handleProceedToPayment = async () => {
+    setpaying(true);
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("No token found! Please log in again.");
+      setpaying(false);
       return;
     }
 
     if (!paymentuser.username || !paymentuser.phonenumber) {
       toast.error("Please enter username and phone number first!");
+      setpaying(false);
       return;
     }
 
@@ -216,7 +239,9 @@ export const Payment = () => {
       const data = await res.json();
       // 2️⃣ If exists → directly add to credit user
       if (data.exists) {
+      
         await addToCreditUser();
+       
       } else {
         toast.warning("add user below")
         setUser({
@@ -229,9 +254,15 @@ export const Payment = () => {
     } catch (err) {
       console.error("Error checking credit user:", err);
     }
+     finally{
+      setpaying(false);
+  
+    }
+   
   };
 
   const handleCreateCreditUser = async () => {
+    setsubmit(true);
     const token = localStorage.getItem("token");
     if (!token) {
       alert("No token found! Please log in again.");
@@ -264,6 +295,9 @@ export const Payment = () => {
     } catch (err) {
       console.error(err);
     }
+     finally{
+      setsubmit(false);
+    }
   };
 
   const addToCreditUser = async () => {
@@ -288,13 +322,19 @@ export const Payment = () => {
 
       const data = await res.json();
       if (res.ok) {
+      setShowSuccess(true);
         toast.success("Added to Credit User successfully!");
         setProducts([]);
+          setTimeout(() => setShowSuccess(false), 2500);
       } else {
         toast.error(data.message || "Failed to add to credit user");
       }
     } catch (err) {
       console.error("Error adding products:", err);
+    }
+    finally{
+      setpaying(false);
+    
     }
   };
 
@@ -315,7 +355,7 @@ export const Payment = () => {
       <Navbar />
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={500}
         hideProgressBar={false}
         newestOnTop={true}
         closeOnClick
@@ -388,7 +428,7 @@ export const Payment = () => {
         </div>
 
         <button className="add-product-btn" onClick={addProduct}>
-          + Add Product
+         {add? "Adding...":"Add_product"}
         </button>
       </div>
 
@@ -428,7 +468,8 @@ export const Payment = () => {
                         className="remove-btn"
                         onClick={() => removeProduct(p.id)}
                       >
-                        Remove
+                      {remove?"removing...":"Remove"}
+                       
                       </button>
                     </td>
                   </tr>
@@ -476,7 +517,8 @@ export const Payment = () => {
         </div>
 
         <button className="proceed-btn" onClick={handleProceedToPayment}>
-          ✓ Proceed to Payment
+        {paying ?"Paying...":"  ✓ Proceed to Payment"}
+        
         </button>
       </div>
       {showCreditModal && (
@@ -515,7 +557,7 @@ export const Payment = () => {
             </div>
             <div className="modal-actions">
               <button className="submit-btn" onClick={handleCreateCreditUser}>
-                Submit
+                {submit ?"submitting...":"submit"}
               </button>
               <button
                 className="cancel-btn"
@@ -524,6 +566,20 @@ export const Payment = () => {
                 Cancel
               </button>
             </div>
+          </div>
+        </div>
+      )}
+       {showSuccess && (
+        <div className="payment-popup">
+          <div className="popup-content">
+            <div className="checkmark-container">
+              <div className="checkmark-circle">
+                <div className="checkmark-stem"></div>
+                <div className="checkmark-kick"></div>
+              </div>
+            </div>
+            <h3>Payment Successful!</h3>
+            <p>Thank you for your purchase 🎉</p>
           </div>
         </div>
       )}

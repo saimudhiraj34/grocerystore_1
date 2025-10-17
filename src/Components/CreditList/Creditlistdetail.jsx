@@ -7,6 +7,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../Login/loader";
 export const Creditlistdetail = () => {
   const { phonenumber,username } = useParams();
   const [creditDetails, setCreditDetails] = useState({
@@ -17,6 +18,9 @@ export const Creditlistdetail = () => {
   const [userCredits, setUserCredits] = useState([]); 
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [load,setload]=useState(false);
+  const [del,setdel]=useState(null);
+  const [pay,setpay]=useState(null)
 
 
   const handlechange = (e) => {
@@ -56,6 +60,7 @@ export const Creditlistdetail = () => {
     }
   };
 const handledelete=async(id)=>{
+  setdel(id);
   try{
   const token=localStorage.getItem("token")
    const res=await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND}/creditd/delete/${id}`,{
@@ -75,8 +80,12 @@ const handledelete=async(id)=>{
    catch(err){
   console.error("error",err)
    }
+   finally{
+    setdel("");
+   }
 }
 const handlepay=async(credit)=>{
+  setpay(credit);
   const token=localStorage.getItem("token")
   console.log(credit.products,credit.prices,credit.Date)
      try{
@@ -103,6 +112,9 @@ const handlepay=async(credit)=>{
      }
      catch(err){
       console.err("error",err);
+     }
+     finally{
+     setpay("");
      }
      
 }
@@ -133,11 +145,18 @@ const handlepay=async(credit)=>{
   };
 
   useEffect(() => {
-    fetchCreditDetails();
-    const token=localStorage.getItem("token");
+    setload(true)
+     const token=localStorage.getItem("token");
     if(!token){
       navigate("/"); 
     }
+    const timer=setTimeout(()=>setload(false),7000);
+    fetchCreditDetails().finally(()=>{
+      setload(false);
+    })
+    return ()=>clearTimeout(timer);
+
+   
   }, []);
 
   return (
@@ -145,7 +164,7 @@ const handlepay=async(credit)=>{
       <Navbar />
                    <ToastContainer
                     position="top-right"
-                    autoClose={3000}
+                    autoClose={500}
                     hideProgressBar={false}
                     newestOnTop={true}
                     closeOnClick
@@ -154,7 +173,10 @@ const handlepay=async(credit)=>{
                     draggable
                     pauseOnHover
                     theme="colored" // you can try "light" or "dark" too
-                  />     
+                  />  
+
+            {load ?<Loader/>:(
+            <>
 
       <div className="creditouter">
         <div className="creditinnner">
@@ -198,9 +220,8 @@ const handlepay=async(credit)=>{
                   <td>{new Date(credit.Date).toLocaleDateString()}</td>
                   <td>{credit.products}</td>
                   <td>₹{credit.prices}</td>
-                  <td><button onClick={() => handlepay(credit)}>Paid</button></td>
-                  <td><button onClick={() => handledelete(credit._id)}>Delete</button></td>
-
+                  <td><button onClick={() => handlepay(credit)}>{pay===credit ?"paying...":"pay"}</button></td>
+                  <td><button onClick={() => handledelete(credit._id)}>{del===credit._id ? "Deleting...":"Delete"}</button></td>
                 </tr>
               ))}
             </tbody>
@@ -212,7 +233,8 @@ const handlepay=async(credit)=>{
       </div>
 
       {/* ✅ Display Credit Details in Table */}
-     
+     </>
+            )}
     </div>
   );
 };

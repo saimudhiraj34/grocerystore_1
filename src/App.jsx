@@ -14,6 +14,7 @@ import { Update } from './Components/Login/Update'
 import { History } from './Components/CreditList/History'
 import { Updatestock } from './Components/Products/Updatestock'
 import SalesGraph from './Components/Products/SalesGraph'
+import Loader from './Components/Login/loader'
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
       <Route path="/hist/:username/:phonenumber" element={<History/>}></Route>
       <Route path="/update/:productname" element={<Updatestock/>}></Route>
       <Route path="/SalesGraph/:productname" element={<SalesGraph/>}></Route>
+      <Route path="/Loader" element={<Loader/>}></Route>
       </Routes>
     </Router>
     </>

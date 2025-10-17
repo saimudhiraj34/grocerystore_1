@@ -17,16 +17,40 @@ const Login = () => {
     // file:""
   });
     const [loading, setLoading] = useState(false);
-
+    const[resload,setresload]=useState(false);
+       const [passwordError, setPasswordError] = useState("");
+         const [showVideoPopup, setShowVideoPopup] = useState(false);
   const videoRef = useRef();
   const canvasRef = useRef();
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handlechange = (e) => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-  };
+const handlechange = (e) => {
+  const { name, value } = e.target;
+
+  // Convert all input values to lowercase (except password)
+  let newValue = name === "password" ? value : value.toLowerCase();
+
+  // Check password strength if the field is 'password'
+  if (name === "password") {
+    const password = value;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isValidLength = password.length >= 8;
+
+     if (!hasUppercase || !hasLowercase || !hasNumber || !hasSpecialChar || !isValidLength) {
+        setPasswordError(
+          "Password must have uppercase, lowercase, number, special character, and be at least 8 characters long."
+        );
+      } else {
+        setPasswordError(""); // clear error
+      }
+    }
+  setUser({ ...user, [name]: newValue });
+};
+
   const handleRegister = () => {
     const container = document.querySelector(".container");
     if (!container.classList.contains("active")) {
@@ -70,10 +94,12 @@ const Login = () => {
   };
 
   const startCamera = () => {
+     setShowVideoPopup(true);
     return navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
       videoRef.current.srcObject = stream;
       videoRef.current.play();
     });
+    
   };
 
   const waitForVideoReady = () => {
@@ -96,7 +122,7 @@ const Login = () => {
       alert("Please enter username and password");
       return;
     }
-
+    setShowVideoPopup(true);
     await startCamera();
     await waitForVideoReady();
 
@@ -114,6 +140,7 @@ const Login = () => {
     tracks.forEach(track => track.stop()); // Stops each track (video/audio)
   
     videoRef.current.srcObject = null;
+     setShowVideoPopup(false);
     canvas.toBlob(sendRegistrationData);
   };
 
@@ -145,6 +172,9 @@ const Login = () => {
       }
     } catch (err) {
       setMessage("Registration failed.");
+    }
+    finally{
+      setresload(false);
     }
   };
   return (
@@ -227,6 +257,7 @@ const Login = () => {
                required
             />
           </div>
+           {passwordError && <p style={{ color: "red" }}>{passwordError}</p>} 
           <div className="password">
             <label style={{fontSize:'25px'}}>Phone</label>
             <input
@@ -258,7 +289,9 @@ const Login = () => {
           </div>
           
           <br></br>
-          <button className="btn" type="submit">Register</button>
+          <button className="btn" type="submit" disabled={resload}>
+            {resload ? <div className="spinner"></div> : "Register"}
+            </button>
         </form>
         <div>
         <video ref={videoRef} width="300" height="200" autoPlay></video>
@@ -269,7 +302,8 @@ const Login = () => {
         <div className="toggle-panel left"> 
           <h3>Welcome To StoreManager</h3>
            <p>Do you Have an Account</p> 
-          <a><button  className="btn" onClick={handleRegister}>Register</button></a>        
+          <a><button  className="btn" onClick={handleRegister}>
+            Register</button></a>        
         </div>
         <div className="toggle-panel right"> 
           <h3>Welcome To StoreManager</h3>
@@ -279,10 +313,25 @@ const Login = () => {
           onClick={handlelogin}>Login</button></a>        
         </div>
       </div>
+      
 
     </div>
+    {showVideoPopup && (
+  <div className="video-popup">
+    <div className="video-content">
+      <h3>Capturing Your Photo</h3>
+      <video ref={videoRef} width="320" height="240" autoPlay></video>
+      <canvas ref={canvasRef} width="320" height="240" style={{ display: "none" }}></canvas>
+      <button className="btn" onClick={captureImageAndSend}>Capture & Continue</button>
     </div>
+  </div>
+)}
+
+    </div>
+    
+
     </>
+    
   );
 };
 

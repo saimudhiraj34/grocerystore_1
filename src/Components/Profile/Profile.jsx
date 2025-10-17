@@ -3,16 +3,24 @@ import "./Profile.css";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../Login/loader";
+
 
 export const Profile = () => {
   const [profile, setProfile] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
   const [backendImage, setBackendImage] = useState("");
+  const [load,setload]=useState(false);
 
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+        setload(true);
+    const timer=setTimeout(()=>setload(false),5000);
+    fetchProfile().finally(()=>{
+      setload(false);
+    })
+    return ()=>clearTimeout(timer);
+    }, []);
 
   const fetchProfile = async () => {
     try {
@@ -87,6 +95,8 @@ export const Profile = () => {
         pauseOnHover
         theme="colored" // you can try "light" or "dark" too
       />
+      {load ? <Loader/>:(
+        <>
       <div className="profile-card">
         <h2 className="profile-title">Profile</h2>
 
@@ -131,6 +141,8 @@ export const Profile = () => {
           </Link>
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 };

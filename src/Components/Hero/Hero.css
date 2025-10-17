@@ -26,6 +26,28 @@
     justify-content: center;
      color: #24a148;
 }
+
+.page-container h2 {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #24a148;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 40px 0 30px;
+  font-family: "Poppins", sans-serif;
+}
+
+.page-container h2::before,
+.page-container h2::after {
+  content: "";
+  flex: 1;
+  border-bottom: 2px solid #24a148;
+  margin: 0 20px;
+  opacity: 0.6;
+}
+
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -182,17 +204,16 @@
   display: none;
 }
 .product-card {
-  background:#e6fff3;
+  background:white;
   width: 200px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  height:270px;
+  height:340px;
   padding: 5px;
-
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   
 }
@@ -216,6 +237,18 @@
   color: #ccc;
   opacity: 0.8;
 }
+.images{
+  width: 200px;
+  height: 200px;
+  
+}
+.images{
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ensures the image fills the box while maintaining aspect ratio */
+  display: block; /* removes bottom white space from inline images */
+}
+
 
 /* Animations */
 @keyframes fadeIn {
@@ -249,6 +282,17 @@
   .hero {
     padding:60px 15px;
   }
+  .images{
+  width: 200px;
+  height:100px;
+  
+}
+.images{
+  width: 100%;
+  height:80%;
+  object-fit:cover; /* ensures the image fills the box while maintaining aspect ratio */
+  display: block; /* removes bottom white space from inline images */
+}
   .hero-title {
     font-size: 2.2rem;
   }
@@ -260,7 +304,7 @@
   }
   .product-card {
     width:380px;
-    height:260px;
+    height:190px;
   }
   .product-grid{
     width: 90%;
@@ -285,6 +329,11 @@
   }
   .product-card {
     min-width:260px;
-    height:300px;
+    height:380px;
+  }
+  .product-card p{
+    font-size: large;
+    display: flex;
+    justify-content: center;
   }
 }

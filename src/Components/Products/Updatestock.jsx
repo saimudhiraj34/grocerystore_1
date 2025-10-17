@@ -7,9 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../Navbar/Navbar';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from '../Login/loader';
 
 export const Updatestock = () => {
   const { productname } = useParams();
+  const[update,setupdate] =useState(false);
   const [productData, setProductData] = useState({
     category: '',
     name: '',
@@ -20,8 +22,7 @@ export const Updatestock = () => {
   const navigate=useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
- 
+  const[load,setload]=useState(false); 
     const fetchProduct = async () => {
       const token = localStorage.getItem("token");
       try {
@@ -50,15 +51,19 @@ export const Updatestock = () => {
       } catch (error) {
         console.error("Error fetching product:", error);
         setError("Failed to fetch product data");
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
     useEffect(() => {
-    fetchProduct();
+      setload(true);
+    const timer=setTimeout(()=>setload(false),5000);
+    fetchProduct().finally(()=>{
+      setload(false);
+    })
+    return ()=>clearTimeout(timer);
   }, [productname]);
   const handleUpdateStock = async () => {
     const token = localStorage.getItem("token");
+    setupdate(true);
     try {
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND}/prod/${productname}`, {
         method: "PUT",
@@ -84,6 +89,9 @@ export const Updatestock = () => {
       console.error("Error updating stock:", error);
       toast.warning("Something went wrong");
     }
+    finally{
+      setupdate(false);
+    }
   };
 
   const incrementStock = () => {
@@ -99,15 +107,12 @@ export const Updatestock = () => {
       stock: prev.stock > 0 ? prev.stock - 1 : 0,
     }));
   };
-
-  if (loading) return <div className="loading">Loading...</div>;
-  if (error) return <div className="error">{error}</div>;
   return (
     <>
     <Navbar/>
      <ToastContainer
                   position="top-right"
-                  autoClose={1000}
+                  autoClose={500}
                   hideProgressBar={false}
                   newestOnTop={true}
                   closeOnClick
@@ -117,6 +122,8 @@ export const Updatestock = () => {
                   pauseOnHover
                   theme="colored" // you can try "light" or "dark" too
                 />
+      {load ?<Loader/>:(
+        <>
     <div className="product-container">
       <h1 className="product-header">Update Stock for <span className="product-title"><h2>{productData.name}</h2></span></h1>
   
@@ -141,8 +148,10 @@ export const Updatestock = () => {
         <button onClick={incrementStock} className="increase-btn">+</button>
       </div>
   
-      <button onClick={handleUpdateStock} className="submit-btn">Update Stock</button>
+      <button onClick={handleUpdateStock} className="submit-btn">{update ?"updating..." :"Update Stock"}</button>
     </div>
+    </>
+      )}
     </>
   );
   

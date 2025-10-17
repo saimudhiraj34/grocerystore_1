@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { Navbar } from "../Navbar/Navbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../Login/loader";
 
 /*
   Your original logic preserved with minor UI-binding additions:
@@ -24,7 +25,10 @@ export const CreditList = () => {
   const [search, setsearch] = useState([]);
   const [users, setUsers] = useState([]);
   const [listening, setListening] = useState(false);
+  const[submit,setsubmit]=useState(false);
+  const [del,setdel]=useState(null);
    const [error, setError] = useState("");
+   const [load,setload]=useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,13 +58,20 @@ export const CreditList = () => {
       navigate("/");
       return;
     }
-    fetchusers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     setload(true);
+      const timer = setTimeout(() => setload(false),7000);
+
+       fetchusers().finally(() => {
+      setload(false);
+    });
+
+    return () => clearTimeout(timer);
   }, []);
 
-  const handleDelete = useCallback(
+  const handleDelete = useCallback(   
     async (phonenumber) => {
       const token = localStorage.getItem("token");
+       setdel(phonenumber);
       try {
         const res = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND}/credit/delete/${phonenumber}`, {
           method: "DELETE",
@@ -80,6 +91,9 @@ export const CreditList = () => {
         }
       } catch (err) {
         console.error("error messagae", err);
+      }
+      finally{
+        setdel(false)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,14 +142,17 @@ export const CreditList = () => {
   };
 
   const handleSubmit = async (e) => {
+    setsubmit(true);
     e.preventDefault();
     const token = localStorage.getItem("token");
     if (!token) {
       alert("No token found! Please log in again.");
+      setsubmit(false);
       return;
     }
     if (!user.username || !user.phonenumber || !user.image) {
       toast.warning("All fields are required!");
+      setsubmit(false);
       return;
     }
     try {
@@ -158,6 +175,9 @@ export const CreditList = () => {
       }
     } catch (err) {
       console.error("Error submitting form:", err);
+    }
+    finally{
+      setsubmit(false);
     }
   };
 
@@ -194,7 +214,7 @@ export const CreditList = () => {
     <Navbar/>
      <ToastContainer
               position="top-right"
-              autoClose={3000}
+              autoClose={500}
               hideProgressBar={false}
               newestOnTop={true}
               closeOnClick
@@ -204,6 +224,8 @@ export const CreditList = () => {
               pauseOnHover
               theme="colored" // you can try "light" or "dark" too
             />
+    {load ? <Loader/> :(
+      <>
     <div className="search-page">
       <div className="search-row">
         <div className="search-input">
@@ -250,7 +272,8 @@ export const CreditList = () => {
             <div className="file-hint">{user.image ? "Image chosen" : "No file chosen"}</div>
           </div>
 
-          <button className="submitbtn" type="submit">Submit</button>
+          <button className="submitbtn" type="submit">
+            {submit? "submitting...":"Submit"}</button>
         </form>
       </div>
        <div className="user-list">
@@ -272,7 +295,8 @@ export const CreditList = () => {
             </div>
         </Link>
             <div className="card-actions">
-              <button className="del" onClick={() => handleDelete(u.phonenumber)}>Delete</button>
+              <button className="del" onClick={() => handleDelete(u.phonenumber)}>
+                {del===u.phonenumber?"Deleting...":"Delete"}</button>
             </div>
           </div>
         ))):(
@@ -281,6 +305,8 @@ export const CreditList = () => {
       </div>
     </div>
     </div>
+    </>
+    )}
     </>
   );
 };

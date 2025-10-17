@@ -5,6 +5,7 @@ import { Navbar } from "../Navbar/Navbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 export const Products = () => {
   const navigate = useNavigate();
   const [Products, setProducts] = useState(false);
@@ -18,7 +19,7 @@ export const Products = () => {
     category: "",
     stock: "",
   });
-
+  const[load,setload]=useState(false)
   const handlecategory = (category) => {
     navigate(`/detailcat/${category}`);
   };
@@ -41,6 +42,7 @@ export const Products = () => {
   };
 
   const handlesubmit = async (e) => {
+    setload(true)
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
@@ -69,6 +71,9 @@ export const Products = () => {
       }
     } catch (err) {
       console.error("Error:", err);
+    }
+    finally{
+      setload(false);
     }
   };
 
@@ -255,8 +260,8 @@ export const Products = () => {
 
             <div className="form-buttons">
               <button type="submit" className="submit-btn">
-                Add Product
-              </button>
+                {load ? "Adding..." :"Add_product"}
+            </button>
               <button
                 type="button"
                 className="cancel-btn"

@@ -4,11 +4,14 @@ import "./History.css"; // ✅ Import the CSS file
 import { Navbar } from "../Navbar/Navbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../Login/loader";
 
 export const History = () => {
   const { phonenumber, username } = useParams();
   const [historyData, setHistoryData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const[clear,setclear]=useState(false);
+
+  const[load,setload]=useState(false);
   const navigate = useNavigate();
 
   const fetchHistory = async () => {
@@ -30,16 +33,20 @@ export const History = () => {
       }
     } catch (err) {
       console.error("Fetch error:", err);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   useEffect(() => {
-    fetchHistory();
+    setload(true);
+      const timer=setTimeout(()=>setload(false),7000);
+    fetchHistory().finally(()=>{
+      setload(false);
+    })
+    return ()=>clearTimeout(timer);
   }, [phonenumber]);
 
   const handledelete = async (phonenumber) => {
+    setclear(true);
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
@@ -61,6 +68,9 @@ export const History = () => {
     } catch (err) {
       console.log(err);
     }
+    finally{
+      setclear(false);
+    }
   };
 
   return (
@@ -69,7 +79,7 @@ export const History = () => {
     <Navbar/>
     <ToastContainer
                         position="top-right"
-                        autoClose={3000}
+                        autoClose={500}
                         hideProgressBar={false}
                         newestOnTop={true}
                         closeOnClick
@@ -85,12 +95,12 @@ export const History = () => {
       <button
         className="clear-btn"
         onClick={() => handledelete(phonenumber)}
-      >
-        Clear History
+      >{clear ? "clearing...":" Clear History"}
+       
       </button>
 
-      {loading ? (
-        <p className="history-text">Loading...</p>
+      {load ? (
+       <Loader/>
       ) : historyData.length === 0 ? (
         <p className="history-text">No payment history found.</p>
       ) : (

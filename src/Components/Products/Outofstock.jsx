@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar } from '../Navbar/Navbar';
 import "./Outofstock.css";
-
+import Loader from '../Login/loader';
 
 export const Outofstock = () => {
   const [outprod, setoutprod] = useState([]);
+  const[load,setload]=useState(false);
 
   const fetchoutofstock = async () => {
     const token = localStorage.getItem("token");
@@ -35,12 +36,19 @@ export const Outofstock = () => {
 };
 
   useEffect(() => {
-    fetchoutofstock();
+    setload(true);
+          const timer=setTimeout(()=>setload(false),7000);
+    fetchoutofstock().finally(()=>{
+      setload(false);
+    })
+    return ()=>clearTimeout(timer);
   }, []);
 
   return (
     <div className="outofstock-container">
       <Navbar />
+      {load ?<Loader/>:(
+      <>
       <h2 className="outofstock-title">Out of Stock Products</h2>
       {outprod.length ===0 ? (
         <p className="no-products">No Products Found</p>
@@ -61,6 +69,8 @@ export const Outofstock = () => {
             </div>
           ))}
         </div>
+      )}
+      </>
       )}
     </div>
   );

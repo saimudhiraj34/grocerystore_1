@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Navbar } from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
+import Loader from "../Login/loader";
 
 export const Hero=()=>{
   const [outprod, setoutprod] = useState([]);
@@ -17,6 +18,7 @@ export const Hero=()=>{
   const [highsale, sethighsale] = useState([]);
   const [showhigh, setshowhigh] = useState(false);
   const [listening, setListening] = useState(false);
+  const [load,setload]=useState(false);
 
   const fetchoutofstock = async () => {
     const token = localStorage.getItem("token");
@@ -155,17 +157,23 @@ export const Hero=()=>{
   };
 
   useEffect(() => {
-    fetchoutofstock();
-    fetchusers();
-    fetchTopSellingProducts();
+    const fetchAll = async () => {
+      setload(true);
+      await Promise.all([
+        fetchoutofstock(),
+        fetchusers(),
+        fetchTopSellingProducts(),
+      ]);
+      setload(false);
+    };
+    fetchAll();
   }, []);
 
   return (
     <div className="page-container">
-      {/* Navbar */}
     <Navbar/>
-
-      {/* Hero Section */}
+   {load ? <Loader/> : (
+      <>
       <header className="hero">
         <h1 className="hero-title">Dear,<b>Merchant</b></h1>
         <p className="hero-subtitle">
@@ -205,7 +213,7 @@ export const Hero=()=>{
         (showSearch ? searchResults : outprod).map((product, index) => (
           <div key={index} className="product-card">
             {product.product_img ? (
-              <img src={product.product_img} alt={product.productname} width="200" height="200" />
+              <img src={product.product_img} alt={product.productname} className="images"/>
             ) : (
               <div className="placeholder-img">❌</div>
             )}
@@ -226,7 +234,7 @@ export const Hero=()=>{
          <Link to={`/credits/${user.phonenumber}/${user.username}`}>
           <div key={index} className="product-card">
             {user.image ? (
-              <img src={user.image} alt={user.username} width="180" height="200" />
+              <img src={user.image} alt={user.username} className="images"/>
             ) : (
               <div className="placeholder-img">👤</div>
             )}
@@ -247,7 +255,7 @@ export const Hero=()=>{
           (showhigh ? highsale : sale).map((product, index) => (
             <div key={index} className="product-card">
               {product.product_img ? (
-                <img src={product.product_img} alt={product.productname} width="200" height="200" />
+                <img src={product.product_img} alt={product.productname} className="images"/>
               ) : (
                 <div className="placeholder-img">💹</div>
               )}
@@ -261,6 +269,8 @@ export const Hero=()=>{
           <div><img src="./nodata.jpg" width="200px" height="200px"></img></div>
           )}
         </section>
+      </>
+   )}
       </div>
     );
   }
