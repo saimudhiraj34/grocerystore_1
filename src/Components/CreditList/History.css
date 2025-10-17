@@ -1,0 +1,75 @@
+/* 🌿 Green & White Theme for Payment History */
+
+.history-container {
+  background-color: #f9fff9;
+  min-height: 100vh;
+  padding: 2rem;
+  color: #2f4f2f;
+  font-family: "Poppins", sans-serif;
+}
+
+.history-header {
+  color: #0b8a42;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.history-text {
+  color: #555;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+/* 🟩 Button */
+.clear-btn {
+  background-color: #0b8a42;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  display: block;
+  margin: 0 auto 1rem auto;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.clear-btn:hover {
+  background-color: #0a7337;
+}
+
+/* 📊 Table Styles */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.history-table th {
+  border-bottom: 2px solid #0b8a42;
+  padding: 12px;
+  background-color: #e9fbe9;
+  color: #0b8a42;
+  text-align: left;
+  font-weight: 600;
+}
+
+.history-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  color: #333;
+}
+
+/* Row Alternation */
+.even-row {
+  background-color: #ffffff;
+}
+
+.odd-row {
+  background-color: #f5fff5;
+}

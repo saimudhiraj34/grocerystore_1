@@ -1,0 +1,218 @@
+/* ===============================
+   General Page Styling
+=================================*/
+.credit-detail-container {
+  background-color: white;
+  min-height: 100vh;
+  width: 100%;
+  color: #2c2c2c;
+  display: flex;
+  flex-direction: column;
+  font-family: "Poppins", "Arial", sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ===============================
+   Search Bar
+=================================*/
+.search {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.searchouter {
+  display: flex;
+  align-items: center;
+  background: #f4f4f4;
+  border-radius: 10px;
+  padding: 8px 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 50%;
+  max-width: 600px;
+}
+
+.select {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  background-color: #14a046;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ===============================
+   Credit Form Container
+=================================*/
+.creditouter {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+.creditinnner {
+  background: #e6fff3;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 700px;
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.creditinnner:hover {
+  transform: translateY(-4px);
+}
+
+.creditinnner form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #2c2c2c;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input-group label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width:90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #333;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #14a046;
+  box-shadow: 0 0 5px rgba(20, 160, 70, 0.4);
+}
+
+/* ===============================
+   Buttons
+=================================*/
+.creditbtn {
+  background-color: rgb(12, 158, 12);
+  padding: 10px;
+  width: 140px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin: 10px auto 0;
+}
+
+.creditbtn:hover {
+  background-color: #3abc67;
+}
+
+/* ===============================
+   Credit List Table
+=================================*/
+.credit-list {
+  margin-top: 30px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.credit-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #2c2c2c;
+  min-width: 600px;
+}
+
+.credit-table th,
+.credit-table td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: center;
+  color: black;
+}
+
+.credit-table th {
+  background-color: #14a046;
+  color: white;
+  font-weight: bold;
+}
+
+.total-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #14a046;
+  margin-left: 10px;
+}
+
+/* ===============================
+   Responsive Adjustments
+=================================*/
+@media (max-width: 1024px) {
+  .searchouter {
+    width: 70%;
+  }
+
+  .creditinnner {
+    width: 70%;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchouter {
+    width: 85%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .select {
+    width: 100%;
+  }
+  .creditouter{
+    flex-direction: column;
+  }
+
+  .creditinnner {
+    width: 90%;
+  }
+
+  .credit-table {
+    min-width: unset;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .creditbtn {
+    width: 100%;
+  }
+
+  .input-group input {
+    font-size: 14px;
+  }
+
+  .creditinnner {
+    padding: 15px;
+  }
+
+  .searchouter {
+    width: 95%;
+  }
+}

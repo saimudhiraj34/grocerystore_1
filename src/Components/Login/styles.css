@@ -1,0 +1,430 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url("/grocerystore background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+.login-btn {
+  background: linear-gradient(135deg, #3bc75f, #2ca84b);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  width: 120px;
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.container {
+   background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 500px;
+  width: 900px;
+  position: relative;
+  border-radius: 20px;
+  z-index: 2;
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+.form-container {
+  background-color:blur;
+  width: 50%;
+  height: 100%;
+  right: 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  z-index: 2;
+  color: white;
+  transition: all 0.5s ease-in-out;
+
+}
+.form-container h2{
+  color: white;
+}
+
+.container.active .form-container.register {
+  visibility: visible;
+  right: 50%;
+}
+
+form {
+  width: 100%;
+  margin-top: 10px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+.socialmedia {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+}
+
+.icon {
+  size: 16px;
+  cursor: pointer;
+}
+
+.password {
+  margin-top: 10px;
+  color: white;
+  font-size: 23px;
+}
+
+.username {
+  color: white;
+}
+
+.email {
+  margin-top: 10px;
+}
+
+.btn {
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.loginbtn {
+  margin-top: 20px;
+}
+
+a {
+  cursor: pointer;
+  color: rgb(84, 89, 237);
+}
+
+.form-container.register {
+  visibility: hidden;
+  top:20%;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+.form-container.register form{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+   padding: 20px;
+   gap: 10px;
+}
+
+
+.togglebox {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+}
+
+.toggle-panel {
+  position: absolute;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+  z-index: 2;
+  transition: 0.3s ease-in-out;
+}
+
+.toggle-box::before {
+  width: 300%;
+  height: 100%;
+  content: '';
+  position: absolute;
+  background-color: white;
+  left: -250%;
+  border-radius: 150px;
+  z-index: 2;
+  transition: left 0.5s ease-in-out;
+}
+
+.toggle-panel.right {
+  color: black;
+  right: -50%;
+}
+
+.button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #f6f3f3;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.button:hover {
+  border-color: #646cff;
+}
+
+.container.active .toggle-box::before {
+  left: 50%;
+}
+
+.toggle-panel.left {
+  left: 0;
+}
+
+.container.active .toggle-panel.left {
+  left: -50%;
+  transition-delay: 0.3s;
+}
+
+.container.active .toggle-panel.right {
+  right: 0;
+  transition-delay: 0.3s;
+}
+.btn,
+.loginbtn,
+.registerbtn {
+  background: linear-gradient(135deg, #4f9cff, #0066ff);
+  color: white;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+}
+
+/* Hover effect */
+.button:hover,
+.btn:hover,
+.loginbtn:hover,
+.registerbtn:hover {
+  background: linear-gradient(135deg, #0066ff, #004ecc);
+  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Active (pressed) effect */
+.button:active,
+.btn:active,
+.loginbtn:active,
+.registerbtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 8px rgba(0, 102, 255, 0.25);
+}
+
+/* Focus outline for accessibility */
+.button:focus,
+.btn:focus,
+.loginbtn:focus,
+.registerbtn:focus {
+  outline: 2px solid rgba(0, 102, 255, 0.5);
+  outline-offset: 2px;
+}
+/* ===== MOBILE RESPONSIVE STYLES ===== */
+@media (max-width: 768px) {
+  body{
+    flex: none;
+    height: 100vh;
+
+  }
+  .container {
+    width: 90%;
+    max-width: 450px;
+    min-height:100vh;
+    margin-top: 20px;
+    position: relative;
+    overflow: scroll;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  }
+
+  /* Reset desktop behavior */
+  .form-container {
+    width: 100%;
+    height: 60%;
+    left: 0;
+    right: auto;
+    position: absolute;
+    transition: top 0.6s ease-in-out;
+    padding: 20px 15px;
+  }
+
+  /* LOGIN FORM */
+  .form-container.signin {
+    top: 0%;
+    visibility: visible;
+    z-index: 3;
+  }
+
+  /* REGISTER FORM (hidden below) */
+  .form-container.register {
+    top: 100%;
+    visibility: hidden;
+    z-index: 2;
+  }
+
+  /* ===== When ACTIVE → REGISTER SLIDES UP ===== */
+  .container.active .form-container.signin {
+    top: -100%;
+    visibility: hidden;
+    z-index: 1;
+  }
+
+  .container.active .form-container.register {
+    top:20%;
+    visibility: visible;
+    z-index: 3;
+  }
+
+  /* ===== TOGGLE PANELS ===== */
+  .toggle-box {
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+  }
+
+  .toggle-panel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: top 0.6s ease-in-out;
+  }
+
+  /* Default toggle position */
+  .toggle-panel.left {
+    top: 30%;
+    z-index: 2;
+  }
+
+  .toggle-panel.right {
+    top: 100%;
+    z-index: 1;
+    left: 0;
+  }
+
+  /* When ACTIVE → move toggle down */
+  .container.active .toggle-panel.left {
+    top: 100%;
+    z-index: 1;
+  }
+
+  .container.active .toggle-panel.right {
+    top:30%;
+    z-index: 2;
+    left: 0;
+  }
+
+  /* ===== WHITE BACKGROUND MOVEMENT ===== */
+  .toggle-box::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 200%;
+    top: 50%;
+    left: 0;
+    background-color: white;
+    border-radius: 150px;
+    transition: top 0.6s ease-in-out;
+    z-index: 1;
+    
+  }
+
+  .container.active .toggle-box::before {
+    top:50%;
+    left: 0;
+  }
+
+  /* Inputs */
+  input {
+    width: 90%;
+    max-width: 320px;
+    margin-left: 0;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+}
+
+/* ===== SMALL SCREENS ===== */
+@media (max-width: 480px) {
+  .container {
+    height: 640px;
+  }
+
+  input {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .button {
+    padding: 0.5em 1em;
+    font-size: 0.85em;
+  }
+}

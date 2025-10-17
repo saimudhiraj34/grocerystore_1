@@ -1,0 +1,65 @@
+.outofstock-container {
+     background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+  
+  .outofstock-title {
+    text-align: center;
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: 600;
+  }
+  
+  .no-products {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+    margin-top: 50px;
+  }
+  
+  .outofstock-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+  }
+  
+  .outofstock-card {
+    background-color: white;
+    border: 1.5px solid #e74c3c;
+    border-radius: 15px;
+    padding: 20px;
+    width: 240px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .outofstock-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+  }
+  
+  .product-name {
+    color: #e74c3c;
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .product-image {
+    width: 120px;      
+    height: 120px;        
+    object-fit: cover;    
+    border-radius: 10px;
+    margin: 15px auto;
+    display: block;
+  } 
+  
+  .product-detail {
+    color: #555;
+    font-size: 15px;
+    margin: 5px 0;
+    text-align: center;
+  }
+  
