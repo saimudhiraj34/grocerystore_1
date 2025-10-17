@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,} from "react";
 import "./Payment.css";
 import { Navbar } from "./Navbar/Navbar";
-import { useNavigate } from "react-router-dom";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./Login/loader";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export const Payment = () => {
   const [paymentuser, setpaymentuser] = useState({

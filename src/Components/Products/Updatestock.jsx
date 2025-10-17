@@ -20,7 +20,6 @@ export const Updatestock = () => {
     stock: 0,
   });
   const navigate=useNavigate();
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const[load,setload]=useState(false); 
     const fetchProduct = async () => {

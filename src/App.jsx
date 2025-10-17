@@ -14,7 +14,8 @@ import { Update } from './Components/Login/Update'
 import { History } from './Components/CreditList/History'
 import { Updatestock } from './Components/Products/Updatestock'
 import SalesGraph from './Components/Products/SalesGraph'
-import Loader from './Components/Login/loader'
+import Loader from './Components/Login/Loader'
+
 
 function App() {
 
