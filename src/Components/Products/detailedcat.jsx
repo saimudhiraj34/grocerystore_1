@@ -65,14 +65,20 @@ const DetailedCategory = () => {
     }
   };
 
-  useEffect(() => {
-    setload(true);
-    const timer=setTimeout(()=>setload(false),5000);
-    handleCategory().finally(()=>{
-      setload(false);
+useEffect(() => {
+  setload(true);
+
+  // Run handleCategory, and stop loader only when done
+  handleCategory()
+    .catch((error) => {
+      console.error("Error fetching category:", error);
     })
-    return ()=>clearTimeout(timer);
-  }, [category]);
+    .finally(() => {
+      setload(false);
+    });
+
+}, [category]);
+
 
   return (
     <div className="category-container">

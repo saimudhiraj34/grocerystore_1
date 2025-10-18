@@ -1,5 +1,7 @@
 /* MerchantDashboard.css */
-
+s{
+  text-decoration: none;  
+}
 /* General Styles */
 .page-container {
   font-family: 'Poppins', sans-serif;
@@ -99,12 +101,26 @@
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(to right, #24a148, #1e8a3e);
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(163, 203, 174, 0.45),  /* 👈 lighter opacity for soft smoke */
+      rgba(137, 196, 155, 0.45)
+    ),
+    url("grocerystore background.png"); /* Replace with your actual image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   text-align: center;
   color: white;
   padding: 80px 20px;
   animation: slideDown 0.8s ease-out;
+  border-radius: 12px;
+  backdrop-filter: blur(2px); /* 👈 adds a subtle glass/smoke blur effect */
 }
+
+
 .hero-title b{
     color: #e6fff3;
 }
@@ -190,63 +206,82 @@
 
 /* Product Grid */
 .product-grid {
-  display:flex;
-  justify-content: flex-start;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-  padding: 0 40px 40px;
-  animation: fadeInUp 1s ease-in;
-  margin-top: 10px;
-  overflow: scroll;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px; /* slightly smaller gaps */
+  padding: 20px; /* less side padding */
+  justify-content: center; /* centers the grid content */
+  align-items: start;
+  max-width: 1200px; /* keeps grid from stretching too wide */
+  margin: 0 auto; /* centers the whole grid block */
+}
 
-}
-.product-grid::-webkit-scrollbar {
-  display: none;
-}
+
+/* Card styling for all product/user cards */
 .product-card {
-  background:white;
-  width: 200px;
-  border-radius: 12px;
-   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  height:340px;
-  padding: 5px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 25px 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #222;
+  width: 230px;
+  transition: all 0.3s ease;
 }
-.product-card s{
-    color: #24a148;
-    text-decoration: none;
-}
-.product-card p{
-    margin-top: 10px;
-    font-family: Arial, sans-serif;
-    color: black;
-}
+
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 20px    rgba(3, 3, 3, 0.1);
-
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
+/* For circular profile/initials */
+.placeholder-img,
+.images {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #b9f0cb;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7fcf9;
+  overflow: hidden;
+}
+
+/* User initials */
 .placeholder-img {
-  font-size: 2rem;
-  color: #ccc;
-  opacity: 0.8;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a9c4f;
 }
-.images{
-  width: 200px;
-  height: 200px;
-  
+
+/* Actual image (round cropped) */
+.images {
+  object-fit: cover;
 }
-.images{
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* ensures the image fills the box while maintaining aspect ratio */
-  display: block; /* removes bottom white space from inline images */
+
+/* Name and role below avatar */
+.user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  margin: 6px 0 4px;
+}
+
+.user-role {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Section title styling */
+h2 {
+  text-align: center;
+  color: #1a9c4f;
+  font-size: 26px;
+  font-weight: 700;
+  margin-top: 30px;
 }
 
 
@@ -277,38 +312,37 @@
     font-size: 2.5rem;
   }
 }
+@media (max-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+  }
+}
 
 @media (max-width: 768px) {
   .hero {
-    padding:60px 15px;
+    padding: 60px 15px;
   }
-  .images{
-  width: 200px;
-  height:100px;
-  
-}
-.images{
-  width: 100%;
-  height:80%;
-  object-fit:cover; /* ensures the image fills the box while maintaining aspect ratio */
-  display: block; /* removes bottom white space from inline images */
-}
+
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
-  .filter-search {
-    flex-direction: column;
-  }
-  .search-box {
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    padding: 10px;
     width: 100%;
   }
+
   .product-card {
-    width:380px;
-    height:190px;
+    max-width: 220px;
+    padding: 20px 15px;
   }
-  .product-grid{
-    width: 90%;
-    overflow: scroll;
+
+  .images {
+    width: 80px;
+    height: 80px;
   }
 }
 
@@ -317,23 +351,24 @@
     flex-direction: column;
     gap: 10px;
   }
+
   .hero-title {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
-  .section-container {
+
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
+    width: 100%;
   }
-  .product-grid{
-    width: 90%;
-    justify-content: flex-start;
-  }
+
   .product-card {
-    min-width:260px;
-    height:380px;
+    max-width: 100%;
+    padding: 15px 10px;
   }
-  .product-card p{
-    font-size: large;
-    display: flex;
-    justify-content: center;
+
+  .product-card p {
+    font-size: 0.9rem;
+    margin-top: 4px;
   }
 }

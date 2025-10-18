@@ -150,12 +150,13 @@ const handlepay=async(credit)=>{
     if(!token){
       navigate("/"); 
     }
-    const timer=setTimeout(()=>setload(false),7000);
-    fetchCreditDetails().finally(()=>{
+  
+    fetchCreditDetails()
+    .catch((err) => {
+      console.error("Error fetching out-of-stock items:", err);
+    }).finally(()=>{
       setload(false);
     })
-    return ()=>clearTimeout(timer);
-
    
   }, []);
 

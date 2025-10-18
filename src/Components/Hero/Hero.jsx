@@ -227,48 +227,70 @@ export const Hero=()=>{
       </section>
 
       {/* Credit List Section */}
-        <h2>Credit Users</h2>
-      <section className="product-grid">
-        {Users.length>0? (
-        (showUser ? searchUser : Users).map((user, index) => (
-         <Link to={`/credits/${user.phonenumber}/${user.username}`}>
-          <div key={index} className="product-card">
-            {user.image ? (
-              <img src={user.image} alt={user.username} className="images"/>
-            ) : (
-              <div className="placeholder-img">👤</div>
-            )}
-            <p>{user.username}</p>
-            <p>{user.total}</p>
-          </div>
-        </Link>
-        ))
-        ): 
-        <div><img src="./nodata.jpg" width="200px" height="200px"></img></div>
-        }
-      </section>
+      <h2 className="hero-title">Credit Users</h2>
+<section className="product-grid">
+  {Users.length > 0 ? (
+    (showUser ? searchUser : Users).map((user, index) => (
+      <Link
+        to={`/credits/${user.phonenumber}/${user.username}`}
+        key={index}
+        className="product-card"
+      >
+        <div className="user-avatar">
+          {user.image ? (
+            <img src={user.image} alt={user.username} className="images" />
+          ) : (
+            <div className="placeholder-avatar">
+              {user.username
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .toUpperCase()}
+            </div>
+          )}
+        </div>
+        <p className="user-name">{user.username}</p>
+        <p className="user-role">{user.role || "Credit Customer"}</p>
+      </Link>
+    ))
+  ) : (
+    <div className="no-data">
+      <img src="./nodata.jpg" width="200" height="200" alt="No data" />
+      <p>No Credit Users Found</p>
+    </div>
+  )}
+</section>
+
 
       {/* High Sales Section */}
-        <h2>High Sales</h2>
-        <section className="product-grid">
-        {(sale && sale.length > 0)? (
-          (showhigh ? highsale : sale).map((product, index) => (
-            <div key={index} className="product-card">
-              {product.product_img ? (
-                <img src={product.product_img} alt={product.productname} className="images"/>
-              ) : (
-                <div className="placeholder-img">💹</div>
-              )}
-              <p>{product.productname}</p>
-                <p>📈 Sales: {product.salesCount}</p>
-              <s>${product.price}</s>
-            
-            </div>
-          ))
-          ):(
-          <div><img src="./nodata.jpg" width="200px" height="200px"></img></div>
-          )}
-        </section>
+       <h2>High Sales</h2>
+<section className="product-grid">
+  {(sale && sale.length > 0) ? (
+    (showhigh ? highsale : sale).map((product, index) => (
+      <div key={index} className="product-card">
+        {product.product_img ? (
+          <img
+            src={product.product_img}
+            alt={product.productname}
+            className="images"
+          />
+        ) : (
+          <div className="placeholder-img">💹</div>
+        )}
+
+        <p className="product-name">{product.productname}</p>
+        <p className="product-sales">📈 Sales: {product.salesCount}</p>
+        <p className="product-price">${product.price}</p>
+      </div>
+    ))
+  ) : (
+    <div className="no-data">
+      <img src="./nodata.jpg" width="200" height="200" alt="No data" />
+      <p>No High Sales Found</p>
+    </div>
+  )}
+</section>
+
       </>
    )}
       </div>

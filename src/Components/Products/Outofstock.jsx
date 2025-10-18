@@ -35,14 +35,19 @@ export const Outofstock = () => {
     }
 };
 
-  useEffect(() => {
-    setload(true);
-          const timer=setTimeout(()=>setload(false),7000);
-    fetchoutofstock().finally(()=>{
-      setload(false);
+useEffect(() => {
+  setload(true);
+
+  fetchoutofstock()
+    .catch((err) => {
+      console.error("Error fetching out-of-stock items:", err);
     })
-    return ()=>clearTimeout(timer);
-  }, []);
+    .finally(() => {
+      setload(false);
+    });
+
+}, []);
+
 
   return (
     <div className="outofstock-container">

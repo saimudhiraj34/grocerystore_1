@@ -52,14 +52,24 @@ export const Updatestock = () => {
         setError("Failed to fetch product data");
       } 
     };
-    useEffect(() => {
-      setload(true);
-    const timer=setTimeout(()=>setload(false),5000);
-    fetchProduct().finally(()=>{
-      setload(false);
+useEffect(() => {
+  setload(true);
+
+  // Call your async function and handle loader via promise
+  fetchProduct()
+    .catch((err) => {
+      console.error("Error fetching product:", err);
     })
-    return ()=>clearTimeout(timer);
-  }, [productname]);
+    .finally(() => {
+      setload(false);
+    });
+
+  return () => {
+    // Optional: cancel any pending side effects
+    // (Promise can't be truly cancelled, but cleanup avoids leaks)
+  };
+}, []);
+
   const handleUpdateStock = async () => {
     const token = localStorage.getItem("token");
     setupdate(true);

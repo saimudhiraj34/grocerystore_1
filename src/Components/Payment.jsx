@@ -368,7 +368,7 @@ export const Payment = () => {
         <h2>User Information</h2>
         <div className="user-form">
           <div className="form-group">
-            <label>Username</label>
+            <label>Customer_name</label>
             <input
               type="text"
               name="username"

@@ -38,11 +38,12 @@ export const History = () => {
 
   useEffect(() => {
     setload(true);
-      const timer=setTimeout(()=>setload(false),7000);
-    fetchHistory().finally(()=>{
+    fetchHistory()
+    .catch((err) => {
+      console.error("Error fetching out-of-stock items:", err);
+    }).finally(()=>{
       setload(false);
     })
-    return ()=>clearTimeout(timer);
   }, [phonenumber]);
 
   const handledelete = async (phonenumber) => {

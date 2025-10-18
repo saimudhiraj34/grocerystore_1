@@ -15,11 +15,12 @@ export const Profile = () => {
 
   useEffect(() => {
         setload(true);
-    const timer=setTimeout(()=>setload(false),5000);
-    fetchProfile().finally(()=>{
+    fetchProfile().catch((err) => {
+      console.error("Error fetching out-of-stock items:", err);
+    }).
+    finally(()=>{
       setload(false);
     })
-    return ()=>clearTimeout(timer);
     }, []);
 
   const fetchProfile = async () => {

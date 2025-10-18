@@ -59,13 +59,14 @@ export const CreditList = () => {
       return;
     }
      setload(true);
-      const timer = setTimeout(() => setload(false),7000);
-
-       fetchusers().finally(() => {
+       fetchusers()
+       .catch((err) => {
+      console.error("Error fetching out-of-stock items:", err);
+    }).finally(() => {
       setload(false);
     });
 
-    return () => clearTimeout(timer);
+
   }, []);
 
   const handleDelete = useCallback(   
