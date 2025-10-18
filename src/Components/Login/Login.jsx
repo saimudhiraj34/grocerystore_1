@@ -116,6 +116,8 @@ const handlechange = (e) => {
   };
 
   const handleRegisterSubmit = async (e) => {
+    setresload(true);
+   
     e.preventDefault();
 
     if (!user.username || !user.password) {
@@ -128,7 +130,8 @@ const handlechange = (e) => {
 
     setTimeout(() => {
       captureImageAndSend();
-    }, 500); // Short delay
+    }, 500);
+     // Short delay
   };
 
   const captureImageAndSend = () => {

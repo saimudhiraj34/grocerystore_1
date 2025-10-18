@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./Forgot.css"
+import Loader from "../Login/Loader";
 
 
 export const Forgot = () => {
@@ -8,14 +9,26 @@ export const Forgot = () => {
     username: '',
     phonenumber: ''
   });
-
+    const [form, setForm] = useState({
+      phonenumber: '',
+      newPassword: ''
+    });
+    const[lo,setlo]=useState(false);
+     const[loader,setloader]=useState(false);
+     const[update,setupdate]=useState(false);
+      const handleChangeupdate = (e) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
+      };
   const navigate = useNavigate();
+  const [load,setload]=useState(false);
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // Request access to webcam
+    const timer=setTimeout(()=>{setlo(false),5000});
+    
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
@@ -24,6 +37,8 @@ export const Forgot = () => {
       .catch((err) => {
         console.error("Error accessing webcam: ", err);
       });
+    
+      return()=>{clearTimeout(timer)};
   }, []);
 
   const handleChange = (e) => {
@@ -31,9 +46,41 @@ export const Forgot = () => {
     setUser({ ...user, [name]: value });
   };
 
+  const handleSubmitupdate = async (e) => {
+    setloader(true);
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND}/user/update_password`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(form)
+      });
+
+      const data = await response.json();
+      alert(data.message);
+
+      if (response.ok) {
+        // Redirect or show success
+        console.log("Password updated successfully");
+        navigate("/")
+
+      }
+    } catch (err) {
+      console.error("Password update failed", err);
+      alert("Something went wrong.");
+    }
+    finally{
+      setloader(false);
+    }
+  };
   const handleSubmit = (e) => {
+    setload(true);
     e.preventDefault();
     captureImageAndSendForVerification();
+    
   };
 
   const captureImageAndSendForVerification = () => {
@@ -65,16 +112,19 @@ export const Forgot = () => {
 
       if (response.ok) {
         console.log("Face verified successfully.");
-        navigate('/update')
+       setupdate(true);
       }
     } catch (err) {
-      alert("Face verification failed.");
-    
+      alert("Face verification failed.");    
       console.error(err);
     }
   };
   return (
+    <>
+    {!update &&(
+      
     <div className="forgot-container">
+   
       <div className="forgot-form-container">
         <h2 className="forgot-title">Forgot Password</h2>
         <form onSubmit={handleSubmit} className="forgot-form">
@@ -97,11 +147,48 @@ export const Forgot = () => {
             className="forgot-input"
           />
           <button type="submit" className="forgot-button">
-            Capture & Verify Face
+            {load ? "Verifying...": "Capture & Verify Face"}
           </button>
         </form>
         <video ref={videoRef} className="forgot-video" autoPlay muted />
         <canvas ref={canvasRef} width="320" height="240" style={{ display: "none" }} />
       </div>
     </div>
+    )}
+
+    {update && (
+      <div className="update-container">
+      <div className="update-form-container">
+        <h2 className="update-title">Update Password</h2>
+        <form onSubmit={handleSubmitupdate} className="update-form">
+          
+          <label className="update-label">Phone Number</label>
+          <input
+            type="text"
+            name="phonenumber"
+            value={form.phonenumber}
+            onChange={handleChangeupdate}
+            required
+            className="update-input"
+          />
+  
+          <label className="update-label">New Password</label>
+          <input
+            type="password"
+            name="newPassword"
+            value={form.newPassword}
+            onChange={handleChangeupdate}
+            required
+            className="update-input"
+          />
+  
+          <button type="submit" className="update-button">
+           {loader ? "Loading..." :"update_password"}
+          </button>
+        </form>
+      </div>
+    </div>
+    )}
+    </>
+    
   );};
